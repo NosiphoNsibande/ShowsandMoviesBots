@@ -112,8 +112,13 @@ namespace BotMovies
                 //int length = (message.Text ?? string.Empty).Length;
                 // return our reply to the user
                 //return message.CreateReplyMessage($"You sent {length} characters");
-                string title = ""; string title2 = ""; string title3 = ""; long year = 0; long year3 = 0; long year2 = 0; int count = 0; long watchers = 0;
-
+                string title = ""; string title2 = ""; string title3 = ""; long year = 0; long year3 = 0; long year2 = 0; int count = 1; long watchers = 0;
+                string[] counta = { "a.", "b.", "c.", "d.", "e.", "f.", "g.", "h.", "i.", "j.", "k.", "l.", "m.", "n.", "o.", "p.", "q.", "r.", "s.", "t.", "u.", "y.", "z." };
+               // string[] countaa = {"i)", "ii)", "iii)", "iiv)", "iiiv)"};
+                if (message.Text.ToLower().Contains("hi")|| message.Text.ToLower().Contains("hellow")|| message.Text.ToLower().Contains("hello"))
+                {
+                    return message.CreateReplyMessage("Hi,My Name is botsMovieShow, but you can call me happyBots,how can i help you??");
+                }
                 using (var client = new HttpClient { BaseAddress = new Uri("https://api.trakt.tv/") })
                 {
 
@@ -129,10 +134,10 @@ namespace BotMovies
                             {
                                 if (message.Text.ToLower().Contains("popular") || res[i].title.ToString().ToLower().Contains(message.Text))
                                 {
-                                    count = i;
+                                    
                                     year = res[i].year;
 
-                                    title += $"{Environment.NewLine }{ Environment.NewLine }>" + count + "." + res[i].title.ToString() + "\t\t\t\t\t" + ":Year:>" + "\t\t\t\t\t" + year;
+                                    title += $"{Environment.NewLine }{ Environment.NewLine }>" + counta[i] + res[i].title.ToString() + "\t\t\t\t\t" + ":Year:>" + "\t\t\t\t\t" + year;
 
                                 }
 
@@ -143,7 +148,7 @@ namespace BotMovies
                         {
                             var responseString = response.Content.ReadAsStringAsync().Result;
                             var res = JsonConvert.DeserializeObject<List<show>>(responseString);
-                            for (int i = 0; i < res.Count; i++)
+                            for (int i = 1; i < res.Count; i++)
                             {
                                 if (message.Text.ToLower().Contains("popular") || res[i].title.ToString().ToLower().Contains(message.Text))
                                 {
@@ -155,7 +160,7 @@ namespace BotMovies
                                 }
                             }
                         }
-                        return message.CreateReplyMessage($"available popular movies are:" + title + $"{Environment.NewLine }{ Environment.NewLine }>" + "Most popular Shows are:" + title2);
+                        return message.CreateReplyMessage($"available popular movies are:" + title + $"{Environment.NewLine }{ Environment.NewLine }" + "Most popular Shows are:" + title2);
 
                     }//Most Trending Movies
                     if (message.Text.ToLower().Contains("trending"))
@@ -168,10 +173,10 @@ namespace BotMovies
                             {
                                 if (message.Text.ToLower().Contains("trending") || res[i].movie.title.ToString().ToLower().Contains(message.Text))
                                 {
-                                    count = i;
+                                    //count = i;
                                     year = res[i].movie.year;
                                     watchers = res[i].watchers;
-                                    title += $"{Environment.NewLine }{ Environment.NewLine }>" + count + "." + res[i].movie.title.ToString() + "\t\t\t\t\t" + ":Year:" + "\t\t\t\t\t" + year + "watchers:>" + watchers;
+                                    title += $"{Environment.NewLine }{ Environment.NewLine }>" + counta[i] + res[i].movie.title.ToString() + "\t\t\t\t\t" + ":Year:" + "\t\t\t\t\t" + year + "\t\t\t\t\t" + "watchers:>" + watchers;
 
                                 }
 
@@ -183,21 +188,21 @@ namespace BotMovies
                         {
                             var responseString = response.Content.ReadAsStringAsync().Result;
                             var res = JsonConvert.DeserializeObject<List<showTrending>>(responseString);
-                            for (int i = 0; i < res.Count; i++)
+                            for (int i = 1; i < res.Count; i++)
                             {
                                 if (message.Text.ToLower().Contains("trending") || res[i].show.title.ToString().ToLower().Contains(message.Text))
                                 {
                                     count = i;
                                     year2 = res[i].show.year;
                                     watchers = res[i].watchers;
-                                    title2 += $"{Environment.NewLine }{ Environment.NewLine }>" + count + "." + res[i].show.title.ToString() + "\t\t\t\t\t" + ":Year:" + "\t\t\t\t\t" + year + "watchers:>" + watchers;
+                                    title2 += $"{Environment.NewLine }{ Environment.NewLine }>" + count + "." + res[i].show.title.ToString() + "\t\t\t\t\t" + ":Year:" + "\t\t\t\t\t" + year + "\t\t\t\t\t" + "watchers:>" + watchers;
 
                                 }
 
 
                             }
                         }
-                        return message.CreateReplyMessage($"available Tranding movies are:" + title + $"{Environment.NewLine }{ Environment.NewLine }" + "Most Trending Shows are:" + title2);
+                        return message.CreateReplyMessage($"Available Tranding movies are:" + title + $"{Environment.NewLine }{ Environment.NewLine }" + "Most Trending Shows are:" + title2);
                     }
                     //Most Played,watched,collected movies..
                     if (message.Text.ToLower().Contains("played") || (message.Text.ToLower().Contains("watched")) || message.Text.ToLower().Contains("collected"))
@@ -206,14 +211,14 @@ namespace BotMovies
                         {
                             var responseString = response.Content.ReadAsStringAsync().Result;
                             var res = JsonConvert.DeserializeObject<List<played>>(responseString);
-                            for (int i = 0; i < res.Count; i++)
+                            for (int i = 1; i < res.Count; i++)
                             {
                                 if (message.Text.ToLower().Contains("played") || (message.Text.ToLower().Contains("watched")) || message.Text.ToLower().Contains("collected") || res[i].movie.title.ToString().ToLower().Contains(message.Text))
                                 {
-                                    count += i;
+                                    count = i;
                                     year2 = res[i].movie.year;
-                                    title2 += $"{Environment.NewLine }{ Environment.NewLine }" + count + "." + res[i].movie.title.ToString() + "\t\t\t\t\t" + ":Year:" + "\t\t\t\t\t" + year2 +
-                                    $"{Environment.NewLine }{ Environment.NewLine }>" + "Number of people watch it:>" + res[i].collected_count;
+                                    title2 += $"{Environment.NewLine }{ Environment.NewLine }>" + count + "." + res[i].movie.title.ToString() + "\t\t\t\t\t" + ":Year:>" + "\t\t\t\t\t" + year2 +
+                                    $"{Environment.NewLine }{ Environment.NewLine }>" + "Number of people watch it:" + res[i].collected_count;
                                 }
 
 
@@ -227,17 +232,17 @@ namespace BotMovies
                             {
                                 if (message.Text.ToLower().Contains("played") || (message.Text.ToLower().Contains("watched")) || message.Text.ToLower().Contains("collected") || res[i].show.title.ToString().ToLower().Contains(message.Text))
                                 {
-                                    count += i;
+                                   // count += i;
                                     year3 = res[i].show.year;
-                                    title3 += $"{Environment.NewLine }{ Environment.NewLine }" + count + "." + res[i].show.title.ToString() + "\t\t\t\t\t" + ":Year:" + "\t\t\t\t\t" + year2 +
+                                    title3 += $"{Environment.NewLine }{ Environment.NewLine }>" + counta[i] + "." + res[i].show.title.ToString() + "\t\t\t\t\t" + ":Year:>" + "\t\t\t\t\t" + year2 +
                                     $"{Environment.NewLine }{ Environment.NewLine }>" + "Number of people watch it:>" + res[i].collected_count;
                                 }
 
 
                             }
 
-                            return message.CreateReplyMessage($"{message.Text}" + title2 + $"{Environment.NewLine }{ Environment.NewLine }>" + "and Shows are:>" + title3);
-                            // return message.CreateReplyMessage($"Movies available are:" + title);
+                            return message.CreateReplyMessage($"Movies you are looking for are:" + $"{Environment.NewLine }{ Environment.NewLine }"+ title2 + $"{Environment.NewLine }{ Environment.NewLine }" + "and Shows are:" + title3);
+                           
                         }
                     }
                         //Most anticipated movies...
@@ -262,8 +267,9 @@ namespace BotMovies
                             return message.CreateReplyMessage($"Most Anticipated  Movies are:>" + title3);
 
                         }
-                    return message.CreateReplyMessage($"OOPS!!,Try again buddy,what do you want,most popular movies and show?,most trending shows and movies?,most anticipated movies......?>");
-
+               return message.CreateReplyMessage($"OOPS!!,i dont's understand what you saying but hey im a good girl and i can help you with the following infor:" + $"{Environment.NewLine}{Environment.NewLine}>"+"1).list of Most Popular Movies and Shows"+$"{Environment.NewLine}{Environment.NewLine}>"+ "2).list of Most Played/Collected/Watched Movies"+ $"{Environment.NewLine}{Environment.NewLine}>" + "3).list of most Anticipated movies and shows"+
+              $"{Environment.NewLine}{Environment.NewLine}>"+  "4).list of most Trending movies and shows");
+                      
                 }
             }
             else
